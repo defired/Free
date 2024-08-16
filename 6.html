@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<center>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protected Page</title>
+    <script type="text/javascript">
+        // Check if the user is logged in
+        function checkLogin() {
+            if (sessionStorage.getItem("loggedIn") !== "true") {
+                alert("You must log in first.");
+                window.location.replace("https://defired.github.io/G/login.html");
+            }
+        }
+
+        // Logout function to clear session and redirect
+        function replaceDoc() {
+            sessionStorage.removeItem("loggedIn");
+            window.location.replace("https://defired.github.io/G/login.html");
+        }
+
+        // Inactivity Timer
+        let inactivityTimeout;
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimeout);
+            inactivityTimeout = setTimeout(replaceDoc, 30000); // 30 seconds
+        }
+
+        // Handle when the user leaves the page or navigates away
+        window.addEventListener("beforeunload", function() {
+            sessionStorage.removeItem("loggedIn"); // Clear login session when leaving the page
+        });
+
+        // Event listeners for user activity to reset inactivity timer
+        document.addEventListener("mousemove", resetInactivityTimer, false);
+        document.addEventListener("keydown", resetInactivityTimer, false);
+        document.addEventListener("touchstart", resetInactivityTimer, false);
+
+        // Initialize timers on page load
+        window.onload = function() {
+            checkLogin(); // Verify if the user is logged in
+            resetInactivityTimer(); // Start the inactivity timer
+        };
+    </script>
+</head>
+<body onload="checkLogin();">
+    <div style="color:#600000">
+        <h1><big><b>Softwares</b></big></h1>
+    </div>
+
+    <div style="color:#800000">
+        <h3><a href="https://defired.github.io/G/rufus.zip">pukis</a></h3>
+    </div>
+
+    <input value="LOGOUT" onclick="replaceDoc()" type="button">
+</body>
+</center>
+</html>
